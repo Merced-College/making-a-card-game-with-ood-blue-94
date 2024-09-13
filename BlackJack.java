@@ -156,12 +156,15 @@ public class BlackJack {
         playerTotal += newCard.getValue();
         // Changed so it doesn't print Card@38ofb434, and so it's more readable by humans. 
         System.out.println("You drew a " + newCard);
+
         if (playerTotal > 21) {
           //added
           //resets playerTotal so the game can be played multiple times
           System.out.println("You busted!" );
           playerTotal = 0;
+          // break; 
           return playerTotal;
+          
         }
         // Breaks the loop if the user types 'stand' so that the user stops drawing cards. 
       } else if (action.equals("stand")) {
@@ -176,8 +179,9 @@ public class BlackJack {
     return playerTotal;
   }
   // algorithm for dealer's turn
-  private static int dealerTurn(int dealerTotal) {{
-    // Dealer will draw until their total is over 17. Their newly drawn card will be added to their dealerTotal.     while (dealerTotal < 17) {
+  private static int dealerTurn(int dealerTotal) {
+    // Dealer will draw until their total is over 17. Their newly drawn card will be added to their dealerTotal.     
+    while (dealerTotal < 17) {
       Card newCard = dealCard();
       dealerTotal += newCard.getValue();
      }
@@ -187,8 +191,15 @@ public class BlackJack {
   }
   // algorithm to determine the winner
   private static void determineWinner(int playerTotal, int dealerTotal) {
+
+    // If player busts, then the playerTotal was set to 0 on line 164, and the player automatically loses and the dealer wins. 
+    // "If the player goes bust, they have already lost their wager, even if the dealer goes bust as well." 
+    if (playerTotal == 0) {
+      System.out.println("Dealer wins!");
+      money -= bet;
+      playerTotal = 0;
     // If the dealer's total is over 21, or the player's total is more than the dealer's, then it prints out that the player wins. 
-    if (dealerTotal > 21 || playerTotal > dealerTotal) {
+    } else if (dealerTotal > 21 || playerTotal > dealerTotal) {
       System.out.println("You win!");;
       // Adds the bet amount to the player's current money total, because the player won. 
       money += bet;
@@ -197,7 +208,7 @@ public class BlackJack {
       System.out.println("It's a tie!");
     } else {
       // Otherwise, if none of the above are true (if it's not a draw, or if the player's total is less than the dealer's), then the dealer wins (and it sets the playerTotal equal to 0)
-      System.out.println("Dealer wins!");;
+      System.out.println("Dealer wins!");
       // Subtracts the bet amount from the user's current money after the player loses.
       money -= bet;
       playerTotal = 0;
