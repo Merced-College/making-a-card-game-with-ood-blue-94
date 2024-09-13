@@ -28,6 +28,6 @@ public class Card {
 
     // return string when class is printed
     public String toString() {
-        return suit + " of " + rank;
+        return rank + " of " + suit;
     }
 }
